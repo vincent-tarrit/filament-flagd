@@ -26,9 +26,12 @@ class TargetingRuleRelationManager extends RelationManager
     public function form(Schema $schema): Schema
     {
         return $schema->components([
+            Toggle::make('result_variant'),
+
             Repeater::make('conditions')
                 ->relationship('conditions')
                 ->label('Conditions (OR group)')
+                ->columnSpanFull()
                 ->schema([
                     Select::make('type')
                         ->options([
@@ -71,8 +74,6 @@ class TargetingRuleRelationManager extends RelationManager
                         ->fillTrack(),
                 ])
                 ->columns(2),
-
-            Toggle::make('result_variant')
         ]);
     }
 
