@@ -1,26 +1,24 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Vincenttarrit\FilamentFlagd;
 
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Filesystem\Filesystem;
 use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
-use VendorName\Skeleton\Testing\TestsSkeleton;
+use Vincenttarrit\FilamentFlagd\Commands\FilamentFlagdCommand;
+use Vincenttarrit\FilamentFlagd\Testing\TestsFilamentFlagd;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class FilamentFlagdServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'skeleton';
+    public static string $name = 'filament-flagd';
 
-    public static string $viewNamespace = 'skeleton';
+    public static string $viewNamespace = 'filament-flagd';
 
     public function configurePackage(Package $package): void
     {
@@ -36,7 +34,7 @@ class SkeletonServiceProvider extends PackageServiceProvider
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub(':vendor_slug/:package_slug');
+                    ->askToStarRepoOnGitHub('vincent-tarrit/filament-flagd');
             });
 
         $configFileName = $package->shortName();
@@ -62,36 +60,22 @@ class SkeletonServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        // Asset Registration
-        FilamentAsset::register(
-            $this->getAssets(),
-            $this->getAssetPackageName()
-        );
-
-        FilamentAsset::registerScriptData(
-            $this->getScriptData(),
-            $this->getAssetPackageName()
-        );
-
-        // Icon Registration
-        FilamentIcon::register($this->getIcons());
-
         // Handle Stubs
         if (app()->runningInConsole()) {
             foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
                 $this->publishes([
-                    $file->getRealPath() => base_path("stubs/skeleton/{$file->getFilename()}"),
-                ], 'skeleton-stubs');
+                    $file->getRealPath() => base_path("stubs/filament-flagd/{$file->getFilename()}"),
+                ], 'filament-flagd-stubs');
             }
         }
 
         // Testing
-        Testable::mixin(new TestsSkeleton);
+        Testable::mixin(new TestsFilamentFlagd);
     }
 
     protected function getAssetPackageName(): ?string
     {
-        return ':vendor_slug/:package_slug';
+        return 'vincent-tarrit/filament-flagd';
     }
 
     /**
@@ -100,9 +84,9 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            // AlpineComponent::make('skeleton', __DIR__ . '/../resources/dist/components/skeleton.js'),
-            Css::make('skeleton-styles', __DIR__ . '/../resources/dist/skeleton.css'),
-            Js::make('skeleton-scripts', __DIR__ . '/../resources/dist/skeleton.js'),
+            // AlpineComponent::make('filament-flagd', __DIR__ . '/../resources/dist/components/filament-flagd.js'),
+            Css::make('filament-flagd-styles', __DIR__ . '/../resources/dist/filament-flagd.css'),
+            Js::make('filament-flagd-scripts', __DIR__ . '/../resources/dist/filament-flagd.js'),
         ];
     }
 
@@ -112,7 +96,7 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getCommands(): array
     {
         return [
-            SkeletonCommand::class,
+            FilamentFlagdCommand::class,
         ];
     }
 
@@ -146,7 +130,9 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getMigrations(): array
     {
         return [
-            'create_skeleton_table',
+            'create_filament_flagd_flags_table',
+            'create_filament_flagd_variants_table',
+            'create_filament_flagd_targeting_table',
         ];
     }
 }
