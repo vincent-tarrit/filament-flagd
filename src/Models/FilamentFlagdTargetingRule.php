@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class FilamentFlagdTargetingRule extends Model
 {
     protected $fillable = [
-        'flag_id', 'target_var', 'percent_rollout'
+        'flag_id', 'result_variant'
     ];
 
     protected $casts = [
-        'percent_rollout' => 'array',
     ];
+
+    public function conditions() {
+        return $this->hasMany(FilamentFlagdTargetingCondition::class);
+    }
+
+    public function flag() {
+        return $this->belongsTo(FilamentFlagdFlag::class);
+    }
 }

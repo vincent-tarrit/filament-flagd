@@ -9,10 +9,10 @@ return new class extends Migration
     public function up(): void
         {
             Schema::create('filament_flagd_flags', function (Blueprint $table) {
-                $table->id();
+                 $table->id();
                 $table->string('key')->unique();
-                $table->enum('state', ['ENABLED', 'DISABLED'])->default('ENABLED');
-                $table->string('default_variant')->nullable();
+                $table->string('state')->default('ENABLED'); // ENABLED / DISABLED
+                $table->boolean('default_variant')->default(false);
                 $table->timestamps();
             });
         }

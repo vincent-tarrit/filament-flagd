@@ -10,13 +10,8 @@ class FilamentFlagdFlag extends Model
         'key', 'state', 'default_variant',
     ];
 
-    public function variants()
+    public function targetingRule()
     {
-        return $this->hasMany(Variant::class);
-    }
-
-    public function targetingRules()
-    {
-        return $this->hasOne(TargetingRule::class);
+        return $this->hasOne(FilamentFlagdTargetingRule::class);
     }
 }

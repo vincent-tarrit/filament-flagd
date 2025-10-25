@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+        {
+            Schema::create('filament_flagd_targeting_conditions', function (Blueprint $table) {
+              $table->id();
+              $table->foreignId('filament_flagd_targeting_rule_id')->constrained()->cascadeOnDelete();
+
+              $table->enum('type', [
+                  'ref',        // {"$ref": "group1"}
+                  'in',         // {"in": [{"var": ["user_email"]}, ["a@b.com"]]}
+                  'ends_with',  // {"ends_with": [{"var": ["user_email"]}, "@domain.com"]}
+                  'starts_with',
+                  'equals',
+                  'fractional'  // {"fractional": [{"var": "user_login"}, ["on",5],["off",95]]}
+              ]);
+
+              // For `$ref`
+              $table->string('ref')->nullable();
+
+              // For operator-based conditions
+              $table->string('attribute')->nullable(); // e.g. user_email or user_login
+              $table->json('values')->nullable(); // for "in" or fractional
+              $table->integer('percent')->nullable();
+              $table->string('value')->nullable(); // for equals, ends_with, etc.
+
+              $table->timestamps();
+            });
+        }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('filament_flagd_variants');
+    }
+};

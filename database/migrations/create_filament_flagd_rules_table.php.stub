@@ -11,14 +11,13 @@ return new class extends Migration
             Schema::create('filament_flagd_targeting_rules', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('filament_flagd_flag_id')->constrained()->cascadeOnDelete();
-                $table->string('target_var')->nullable();     // user.id, user.country, etc.
-                $table->json('percent_rollout')->nullable();  // {"on": 25, "off": 75}
+                $table->boolean('result_variant')->default(false);
                 $table->timestamps();
             });
         }
 
     public function down(): void
     {
-        Schema::dropIfExists('filament_flagd_targeting_rules');
+        Schema::dropIfExists('filament_flagd_variants');
     }
 };

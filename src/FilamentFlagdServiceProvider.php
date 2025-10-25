@@ -129,10 +129,9 @@ class FilamentFlagdServiceProvider extends PackageServiceProvider
      */
     protected function getMigrations(): array
     {
-        return [
-            'create_filament_flagd_flags_table',
-            'create_filament_flagd_variants_table',
-            'create_filament_flagd_targeting_table',
-        ];
+       return collect(app(Filesystem::class)->files(__DIR__ . '/../database/migrations'))->map(function($file) {
+           return str($file->getBasename())->before('.')->value();
+       })
+           ->toArray();
     }
 }
