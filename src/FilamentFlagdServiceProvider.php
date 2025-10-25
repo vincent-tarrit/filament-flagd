@@ -37,7 +37,7 @@ class FilamentFlagdServiceProvider extends PackageServiceProvider
                     ->askToStarRepoOnGitHub('vincent-tarrit/filament-flagd');
             });
 
-        $configFileName = $package->shortName();
+        $configFileName = 'filament-flagd';
 
         if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
             $package->hasConfigFile();

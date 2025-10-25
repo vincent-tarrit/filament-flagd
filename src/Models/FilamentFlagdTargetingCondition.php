@@ -4,7 +4,7 @@ namespace Vincenttarrit\FilamentFlagd\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Vincenttarrit\FilamentFlagd\Models\FilamentFlagdTargetingRule;
+use Vincenttarrit\FilamentFlagd\Observers\TargetingConditionsObserver;
 
 class FilamentFlagdTargetingCondition extends Model
 {
@@ -23,6 +23,14 @@ class FilamentFlagdTargetingCondition extends Model
     protected $casts = [
         'values' => 'array', // for "in" or "fractional" conditions
     ];
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::observe(TargetingConditionsObserver::class);
+
+    }
 
     /*
     |--------------------------------------------------------------------------
