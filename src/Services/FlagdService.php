@@ -41,8 +41,11 @@ class FlagdService
                 $ifArray[] = ['or' => $orConditions];
 
                 $resultVariant = $rule->result_variant ? 'on' : 'off';
+
                 $ifArray[] = $resultVariant;
-                $ifArray[] = true;
+
+                // If there are fractional conditions, keep true placeholder; otherwise null
+                $ifArray[] = !empty($fractionalConditions) ? true : null;
             }
 
             // Append all fractional conditions at the end
