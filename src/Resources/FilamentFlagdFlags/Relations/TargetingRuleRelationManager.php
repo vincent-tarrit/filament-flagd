@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Slider;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -45,20 +46,29 @@ class TargetingRuleRelationManager extends RelationManager
                         ->placeholder('group1'),
 
                     TextInput::make('attribute')
-                        ->visible(fn($get) => in_array($get('type'), ['in', 'ends_with', 'starts_with', 'equals', 'fractional']))
+                        ->visible(fn($get) => in_array($get('type'), ['in', 'ends_with', 'starts_with', 'fractional']))
                         ->placeholder('email'),
 
                     TagsInput::make('values')
                         ->visible(fn($get) => $get('type') === 'in')
+                        ->columnSpanFull()
                         ->placeholder('List of values'),
 
                     TextInput::make('value')
-                        ->visible(fn($get) => in_array($get('type'), ['ends_with', 'starts_with', 'equals']))
+                        ->visible(fn($get) => in_array($get('type'), ['ends_with', 'starts_with']))
+                        ->columnSpanFull()
                         ->placeholder('@example.com'),
 
-                    TextInput::make('percent')
+                    Slider::make('percent')
+                        ->label('Percentage')
                         ->visible(fn($get) => $get('type') === 'fractional')
-                        ->numeric(),
+                        ->step(1)
+                        ->range(minValue: 0, maxValue: 100)
+                        ->default(0)
+                        ->tooltips()
+                        ->pips()
+                        ->columnSpanFull()
+                        ->fillTrack(),
                 ])
                 ->columns(2),
 
