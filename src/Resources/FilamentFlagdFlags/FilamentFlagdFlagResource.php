@@ -11,14 +11,24 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Vincenttarrit\FilamentFlagd\Models\FilamentFlagdFlag;
+use Vincenttarrit\FilamentFlagd\Resources\FilamentFlagdFlags\Pages\CreateFilamentFlagdEvaluator;
 use Vincenttarrit\FilamentFlagd\Resources\FilamentFlagdFlags\Pages\CreateFilamentFlagdFlag;
+use Vincenttarrit\FilamentFlagd\Resources\FilamentFlagdFlags\Pages\EditFilamentFlagdEvaluator;
 use Vincenttarrit\FilamentFlagd\Resources\FilamentFlagdFlags\Pages\EditFilamentFlagdFlag;
+use Vincenttarrit\FilamentFlagd\Resources\FilamentFlagdFlags\Pages\ListFilamentFlagdEvaluator;
 use Vincenttarrit\FilamentFlagd\Resources\FilamentFlagdFlags\Pages\ListFilamentFlagdFlags;
 use Vincenttarrit\FilamentFlagd\Resources\FilamentFlagdFlags\Relations\TargetingRuleRelationManager;
 
 class FilamentFlagdFlagResource extends Resource
 {
     protected static ?string $model = FilamentFlagdFlag::class;
+
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-user-group';
+
+    public static function getNavigationLabel(): string
+    {
+        return config('filament-flagd.navigation.label');
+    }
 
     public static function form(Schema $schema): Schema
     {

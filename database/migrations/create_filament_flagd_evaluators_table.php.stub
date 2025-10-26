@@ -8,16 +8,16 @@ return new class extends Migration
 {
     public function up(): void
         {
-            Schema::create('filament_flagd_targeting_rules', function (Blueprint $table) {
+            Schema::create('filament_flagd_evaluators', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('filament_flagd_flag_id')->constrained()->cascadeOnDelete();
-                $table->boolean('result_variant')->default(false);
+                $table->string('key')->unique(); // e.g. "isEmployee"
+                $table->text('description')->nullable(); // optional human-friendly description
                 $table->timestamps();
             });
         }
 
     public function down(): void
     {
-        Schema::dropIfExists('filament_flagd_targeting_rules');
+        Schema::dropIfExists('filament_flagd_evaluators');
     }
 };

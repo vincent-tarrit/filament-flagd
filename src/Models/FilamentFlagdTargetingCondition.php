@@ -43,6 +43,10 @@ class FilamentFlagdTargetingCondition extends Model
         return $this->belongsTo(FilamentFlagdTargetingRule::class);
     }
 
+    public function reference() {
+        return $this->belongsTo(FilamentFlagdEvaluator::class, 'ref');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Accessors
@@ -57,7 +61,7 @@ class FilamentFlagdTargetingCondition extends Model
         switch ($this->type) {
             case 'ref':
                 return [
-                    '$ref' => $this->ref,
+                    '$ref' => $this->reference->key,
                 ];
 
             case 'in':

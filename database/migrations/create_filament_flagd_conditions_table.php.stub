@@ -36,6 +36,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('filament_flagd_variants');
+        Schema::dropIfExists('filament_flagd_targeting_conditions');
     }
 };

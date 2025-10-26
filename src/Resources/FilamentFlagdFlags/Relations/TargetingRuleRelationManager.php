@@ -18,6 +18,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Table;
+use Vincenttarrit\FilamentFlagd\Models\FilamentFlagdEvaluator;
 
 class TargetingRuleRelationManager extends RelationManager
 {
@@ -44,9 +45,11 @@ class TargetingRuleRelationManager extends RelationManager
                         ->reactive()
                         ->required(),
 
-                    TextInput::make('ref')
+                    Select::make('ref')
                         ->visible(fn($get) => $get('type') === 'ref')
-                        ->placeholder('group1'),
+                        ->options(function() {
+                                return  FilamentFlagdEvaluator::pluck('key', 'id')->toArray();
+                        }),
 
                     TextInput::make('attribute')
                         ->visible(fn($get) => in_array($get('type'), ['in', 'ends_with', 'starts_with', 'fractional']))

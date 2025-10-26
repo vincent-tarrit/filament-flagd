@@ -5,6 +5,7 @@ namespace Vincenttarrit\FilamentFlagd;
 use BezhanSalleh\PluginEssentials\Concerns\Plugin as PluginEssentials;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Vincenttarrit\FilamentFlagd\Resources\FilamentFlagdEvaluators\FilamentFlagdEvaluatorResource;
 use Vincenttarrit\FilamentFlagd\Resources\FilamentFlagdFlags\FilamentFlagdFlagResource;
 
 class FilamentFlagdPlugin implements Plugin
@@ -23,7 +24,8 @@ class FilamentFlagdPlugin implements Plugin
     {
         $panel
             ->resources([
-                FilamentFlagdFlagResource::class
+                FilamentFlagdFlagResource::class,
+                FilamentFlagdEvaluatorResource::class
             ]);
     }
 

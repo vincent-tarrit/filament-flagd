@@ -2,6 +2,7 @@
 
 namespace Vincenttarrit\FilamentFlagd\Services;
 
+use Vincenttarrit\FilamentFlagd\Models\FilamentFlagdEvaluator;
 use Vincenttarrit\FilamentFlagd\Models\FilamentFlagdFlag;
 
 class FlagdService
@@ -62,6 +63,17 @@ class FlagdService
                 'state' => $flag->state,
                 'targeting' => [
                     'if' => $ifArray,
+                ],
+            ];
+        }
+
+        $evaluators = FilamentFlagdEvaluator::with('conditions')->get();
+
+        foreach ($evaluators as $eval) {
+            $output['$evaluators'][$eval->key] = [
+                $eval->conditions->first()->type => [
+                    ['var' => $eval->conditions->first()->attribute],
+                    $eval->conditions->first()->value,
                 ],
             ];
         }

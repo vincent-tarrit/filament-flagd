@@ -4,7 +4,7 @@
             <li class="p-2 border rounded bg-gray-50">
                 <strong>Type:</strong> {{ $condition->type }}
                 @if($condition->ref)
-                    | <strong>Ref:</strong> {{ $condition->ref }}
+                    | <strong>Ref:</strong> {{ $condition->reference?->key ?? $condition->ref }}
                 @endif
                 @if($condition->attribute)
                     | <strong>Attribute:</strong> {{ $condition->attribute }}
