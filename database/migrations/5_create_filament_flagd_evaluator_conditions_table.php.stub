@@ -10,7 +10,11 @@ return new class extends Migration
         {
             Schema::create('filament_flagd_evaluator_conditions', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('filament_flagd_evaluator_id')->constrained()->cascadeOnDelete();
+                $table->foreignId('filament_flagd_evaluator_id')
+                    ->constrained(
+                        indexName: 'fk_filament_flagd_evaluator_id',
+                    )
+                    ->cascadeOnDelete();
                 $table->string('type'); // ends_with, starts_with, equals, etc.
                 $table->string('attribute')->nullable(); // user_email, etc.
                 $table->string('value')->nullable(); // "@company.com", etc.

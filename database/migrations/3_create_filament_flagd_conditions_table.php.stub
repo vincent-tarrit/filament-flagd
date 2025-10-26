@@ -10,8 +10,11 @@ return new class extends Migration
         {
             Schema::create('filament_flagd_targeting_conditions', function (Blueprint $table) {
               $table->id();
-              $table->foreignId('filament_flagd_targeting_rule_id')->constrained()->cascadeOnDelete();
-
+              $table->foreignId('filament_flagd_targeting_rule_id')
+                  ->constrained(
+                      indexName: 'fk_filament_flagd_targeting_rule_id',
+                  )
+                  ->cascadeOnDelete();
               $table->enum('type', [
                   'ref',        // {"$ref": "group1"}
                   'in',         // {"in": [{"var": ["user_email"]}, ["a@b.com"]]}
