@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FilamentFlagdEvaluatorCondition extends Model
 {
-    protected $fillable = ['evaluator_id', 'type', 'attribute', 'value'];
+    protected $fillable = ['evaluator_id', 'type', 'attribute', 'value', 'values'];
+
+    protected $casts = [
+      'values' => 'array',
+    ];
 
     public function evaluator(): BelongsTo
     {

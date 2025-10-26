@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -49,22 +50,26 @@ class FilamentFlagdEvaluatorResource extends Resource
                             ->options([
                                 'ends_with' => 'Ends With',
                                 'starts_with' => 'Starts With',
-                                'equals' => 'Equals',
                                 'in' => 'In',
                             ])
+                            ->reactive()
                             ->required(),
 
                         TextInput::make('attribute')
-                            ->label('Attribute (e.g. email)')
-                            ->required(),
+                            ->visible(fn($get) => in_array($get('type'), ['in', 'ends_with', 'starts_with']))
+                            ->placeholder('email'),
+
+                        TagsInput::make('values')
+                            ->visible(fn($get) => $get('type') === 'in')
+                            ->columnSpanFull()
+                            ->placeholder('List of values'),
 
                         TextInput::make('value')
-                            ->label('Value (e.g. @company.com)')
-                            ->required(),
+                            ->visible(fn($get) => in_array($get('type'), ['ends_with', 'starts_with']))
+                            ->columnSpanFull()
+                            ->placeholder('@example.com'),
                     ])
-                    ->createItemButtonLabel('Add Condition')
-                    ->orderable()
-                    ->collapsed()
+                    ->addActionLabel('Add Condition')
                     ->columns(3),
             ]);
     }

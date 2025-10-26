@@ -69,13 +69,52 @@ class FlagdService
 
         $evaluators = FilamentFlagdEvaluator::with('conditions')->get();
 
+
         foreach ($evaluators as $eval) {
-            $output['$evaluators'][$eval->key] = [
-                $eval->conditions->first()->type => [
-                    ['var' => $eval->conditions->first()->attribute],
-                    $eval->conditions->first()->value,
-                ],
-            ];
+            if ($eval->conditions->isEmpty()) {
+                continue;
+            }
+
+            $orConditions = [];
+
+            foreach ($eval->conditions as $c) {
+                switch ($c->type) {
+                    case 'in':
+                        $orConditions[] = [
+                            'in' => [
+                                ['var' => $c->attribute],
+                                $c->values ?? [],
+                            ],
+                        ];
+                        break;
+
+                    case 'ends_with':
+                        $orConditions[] = [
+                            'ends_with' => [
+                                ['var' => $c->attribute],
+                                $c->value,
+                            ],
+                        ];
+                        break;
+
+                    case 'starts_with':
+                        $orConditions[] = [
+                            'starts_with' => [
+                                ['var' => $c->attribute],
+                                $c->value,
+                            ],
+                        ];
+                        break;
+                }
+            }
+
+            if (count($orConditions) > 1) {
+                $output['$evaluators'][$eval->key] = [
+                    'or' => $orConditions,
+                ];
+            } else {
+                $output['$evaluators'][$eval->key] = $orConditions[0];
+            }
         }
 
         return json_encode($output, JSON_PRETTY_PRINT);
