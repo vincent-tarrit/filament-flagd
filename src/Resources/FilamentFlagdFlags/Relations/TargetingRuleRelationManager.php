@@ -51,9 +51,11 @@ class TargetingRuleRelationManager extends RelationManager
                                 return  FilamentFlagdEvaluator::pluck('key', 'id')->toArray();
                         }),
 
-                    TextInput::make('attribute')
+                    Select::make('attribute')
                         ->visible(fn($get) => in_array($get('type'), ['in', 'ends_with', 'starts_with', 'fractional']))
-                        ->placeholder('email'),
+                        ->options(function() {
+                            return collect(config('filament-flagd.variables', []))->mapWithKeys(fn($item) => [$item => $item])->toArray();
+                        }),
 
                     TagsInput::make('values')
                         ->visible(fn($get) => $get('type') === 'in')

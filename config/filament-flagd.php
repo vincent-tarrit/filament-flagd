@@ -7,4 +7,10 @@ return [
     'navigation' => [
         'label' => 'Feature Flags',
     ],
+
+    'variables' => [
+        'user_id',
+        'user_email',
+        'user_name'
+    ]
 ];
